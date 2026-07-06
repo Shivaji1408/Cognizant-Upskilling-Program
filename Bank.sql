@@ -114,3 +114,29 @@ BEGIN
     END LOOP;
 END ApplyInterestDiscount;
 /
+
+
+-- SCENARIO - 2
+-- Procedure to promote customers to VIP status based on balance
+CREATE OR REPLACE PROCEDURE PromoteToVIP IS
+    CURSOR cur IS
+        SELECT CustomerID, Balance FROM Accounts;
+    
+    cur_CustomerID Accounts.CustomerID%TYPE;
+    cur_Balance Accounts.Balance%TYPE;
+BEGIN
+    FOR account_record IN cur LOOP
+        IF account_record.Balance > 5000 THEN
+            UPDATE Customers
+            SET IsVIP = 'Y'
+            WHERE CustomerID = account_record.CustomerID;
+            DBMS_OUTPUT.PUT_LINE('CustomerID: ' || account_record.CustomerID || ' promoted to VIP.');
+        ELSE
+            UPDATE Customers
+            SET IsVIP = 'N'
+            WHERE CustomerID = account_record.CustomerID;
+            DBMS_OUTPUT.PUT_LINE('CustomerID: ' || account_record.CustomerID || ' demoted from VIP.');
+        END IF;
+    END LOOP;
+END PromoteToVIP;
+/
