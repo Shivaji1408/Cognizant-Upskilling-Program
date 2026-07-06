@@ -81,3 +81,14 @@ VALUES (1, 'Alice Johnson', 'Manager', 70000, 'HR', TO_DATE('2015-06-15', 'YYYY-
 
 INSERT INTO Employees (EmployeeID, Name, Position, Salary, Department, HireDate)
 VALUES (2, 'Sakthivel', 'Developer', 60000, 'IT', TO_DATE('2017-03-20', 'YYYY-MM-DD'));
+
+-- Checking the DataBases
+SELECT * FROM CUSTOMERS;
+SELECT * FROM ACCOUNTS;
+SELECT * FROM TRANSACTIONS;
+SELECT * FROM LOANS;
+SELECT * FROM EMPLOYEES;
+
+SET SERVEROUTPUT ON;
+
+ALTER TABLE Customers ADD IsVIP CHAR(1);
