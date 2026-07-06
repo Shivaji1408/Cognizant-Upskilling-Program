@@ -92,3 +92,25 @@ SELECT * FROM EMPLOYEES;
 SET SERVEROUTPUT ON;
 
 ALTER TABLE Customers ADD IsVIP CHAR(1);
+
+
+-- SCENARIO - 1
+-- Procedure to apply interest discount to customers above 60 years old
+CREATE OR REPLACE PROCEDURE ApplyInterestDiscount IS
+    CURSOR cur IS
+        SELECT CustomerID, DOB FROM Customers;
+    
+    cur_CustomerID Customers.CustomerID%TYPE;
+    cur_DOB Customers.DOB%TYPE;
+    currentDATE DATE := SYSDATE;
+BEGIN
+    FOR customer_rec IN cur LOOP
+        IF MONTHS_BETWEEN(currentDATE, customer_rec.DOB) / 12 > 60 THEN
+            UPDATE Loans
+            SET InterestRate = InterestRate * 0.99
+            WHERE CustomerID = customer_rec.CustomerID;
+            DBMS_OUTPUT.PUT_LINE('CustomerID: ' || customer_rec.CustomerID || ' interest rate is decreased by 1%.');
+        END IF;
+    END LOOP;
+END ApplyInterestDiscount;
+/
