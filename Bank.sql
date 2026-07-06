@@ -159,3 +159,23 @@ BEGIN
 END SendLoanReminders;
 /
 
+
+
+-- Calling the procedures
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('SCENARIO - 1: For applying discount to interest rate for the customers above age 60');
+    ApplyInterestDiscount;
+END;
+/
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('SCENARIO - 2: Promote customers to VIP status based on balance');
+    PromoteToVIP;
+END;
+/
+
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('SCENARIO - 3: Reminders for loans due within the next 30 days');
+    SendLoanReminders;
+END;
+/
