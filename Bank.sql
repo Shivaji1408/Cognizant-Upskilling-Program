@@ -140,3 +140,22 @@ BEGIN
     END LOOP;
 END PromoteToVIP;
 /
+
+
+-- SCENARIO - 3
+-- Procedure to send loan reminders for loans due within the next 30 days
+CREATE OR REPLACE PROCEDURE SendLoanReminders IS
+    CURSOR cur IS
+        SELECT CustomerID, EndDate 
+        FROM Loans 
+        WHERE EndDate BETWEEN SYSDATE AND SYSDATE + 30;
+    
+    cur_CustomerID Loans.CustomerID%TYPE;
+    cur_EndDate Loans.EndDate%TYPE;
+BEGIN
+    FOR loan_rec IN cur LOOP
+        DBMS_OUTPUT.PUT_LINE('Reminder: Loan due on ' || TO_CHAR(loan_rec.EndDate, 'YYYY-MM-DD') || ' for CustomerID: ' || loan_rec.CustomerID);
+    END LOOP;
+END SendLoanReminders;
+/
+
