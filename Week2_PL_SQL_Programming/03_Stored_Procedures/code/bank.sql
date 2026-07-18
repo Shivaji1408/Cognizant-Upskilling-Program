@@ -164,3 +164,20 @@ BEGIN
     END;
 END TransferFunds;
 /
+
+
+-- Example calls for the procedures
+BEGIN
+    ProcessMonthlyInterest;
+END;
+/
+
+BEGIN
+    UpdateEmployeeBonus(1, 10.00);
+END;
+/
+
+BEGIN
+    TransferFunds(1, 2, 100.00);
+END;
+/
