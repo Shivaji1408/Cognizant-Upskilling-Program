@@ -48,3 +48,10 @@ CREATE TABLE Employees (
     DepartmentID INT,
     HireDate DATE
 );
+
+-- Create ErrorLogs table for logging errors
+CREATE TABLE ErrorLogs (
+    ErrorID INT PRIMARY KEY,
+    ErrorMessage VARCHAR2(255),
+    ErrorDate DATE
+);
