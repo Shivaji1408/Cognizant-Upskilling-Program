@@ -115,3 +115,52 @@ BEGIN
     WHERE DepartmentID = departmentID;
 END UpdateEmployeeBonus;
 /
+
+-- SCENARIO - 3
+-- Procedure to Transfer Funds Between Accounts
+CREATE OR REPLACE PROCEDURE TransferFunds(
+    fromAccountID IN INT,
+    toAccountID IN INT,
+    amount IN DECIMAL
+) IS
+BEGIN
+    DECLARE
+        insufficientFunds EXCEPTION;
+        PRAGMA EXCEPTION_INIT(insufficientFunds, -20001);
+
+    BEGIN
+        SAVEPOINT start_trans;
+
+        DECLARE
+            from_balance INT;
+        BEGIN
+            SELECT Balance INTO from_balance
+            FROM Accounts
+            WHERE AccountID = fromAccountID;
+            
+            IF from_balance < amount THEN
+                RAISE insufficientFunds;
+            END IF;
+        END;
+
+        UPDATE Accounts
+        SET Balance = Balance - amount
+        WHERE AccountID = fromAccountID;
+
+        UPDATE Accounts
+        SET Balance = Balance + amount
+        WHERE AccountID = toAccountID;
+
+        COMMIT;
+    EXCEPTION
+        WHEN insufficientFunds THEN
+            INSERT INTO ErrorLogs (ErrorMessage, ErrorDate)
+            VALUES ('Insufficient funds for transfer from AccountID: ' || fromAccountID, SYSDATE);
+            ROLLBACK TO start_trans;
+        WHEN OTHERS THEN
+            INSERT INTO ErrorLogs (ErrorMessage, ErrorDate)
+            VALUES ('SQL Error during transfer from AccountID: ' || fromAccountID || ' to AccountID: ' || toAccountID, SYSDATE);
+            ROLLBACK TO start_trans;
+    END;
+END TransferFunds;
+/
