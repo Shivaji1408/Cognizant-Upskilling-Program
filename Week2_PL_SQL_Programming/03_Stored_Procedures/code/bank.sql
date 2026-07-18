@@ -102,3 +102,16 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('Number of accounts updated: ' || v_rows_updated);
 END ProcessMonthlyInterest;
 /
+
+-- SCENARIO -2 
+-- Procedure to Update Employee Bonus Based on Performance
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus(
+    departmentID IN INT,
+    bonusPercentage IN DECIMAL
+) IS
+BEGIN
+    UPDATE Employees
+    SET Salary = Salary + (Salary * (bonusPercentage / 100))
+    WHERE DepartmentID = departmentID;
+END UpdateEmployeeBonus;
+/
