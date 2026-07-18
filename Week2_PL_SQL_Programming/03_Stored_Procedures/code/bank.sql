@@ -86,3 +86,19 @@ VALUES (1, 'Alice Johnson', 'Manager', 70000, 'HR', TO_DATE('2015-06-15', 'YYYY-
 
 INSERT INTO Employees (EmployeeID, Name, Position, Salary, Department, HireDate)
 VALUES (2, 'Bob Brown', 'Developer', 60000, 'IT', TO_DATE('2017-03-20', 'YYYY-MM-DD'));
+
+
+-- SCENARIO - 1
+-- Procedure to Process Monthly Interest for All Savings Accounts
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest IS
+    v_rows_updated NUMBER;
+BEGIN
+    UPDATE Accounts
+    SET Balance = Balance * 1.01
+    WHERE AccountType = 'Savings';
+
+    v_rows_updated := SQL%ROWCOUNT;
+
+    DBMS_OUTPUT.PUT_LINE('Number of accounts updated: ' || v_rows_updated);
+END ProcessMonthlyInterest;
+/
