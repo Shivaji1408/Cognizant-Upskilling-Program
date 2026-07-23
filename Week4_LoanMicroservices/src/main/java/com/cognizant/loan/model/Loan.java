@@ -8,6 +8,7 @@ public class Loan {
     private double emi;
     private int tenure;
 
+    // Constructor
     public Loan() {
     }
 
@@ -54,6 +55,8 @@ public class Loan {
     public int getTenure() {
         return tenure;
     }
+
+
 
     public void setTenure(int tenure) {
         this.tenure = tenure;
